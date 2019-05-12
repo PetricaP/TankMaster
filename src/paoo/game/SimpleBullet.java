@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class SimpleBullet extends Bullet {
     SimpleBullet(Vector2D position, int direction, String tag) {
-        super(position, new Vector2D(3, 3), direction, 3, tag);
+        super(position, new Vector2D(6, 6), direction, 3, tag);
     }
 
     @Override
@@ -15,4 +15,11 @@ public class SimpleBullet extends Bullet {
         graphics.fillOval(getPosition().x, getPosition().y, getDimensions().x, getDimensions().y);
     }
 
+    @Override
+    int getDamage() {
+        return 1;
+    }
+
+    @Override
+    public void setPosition(Vector2D position) {}
 }

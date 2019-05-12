@@ -86,8 +86,6 @@ public class Game extends JFrame implements Application, AttackListener, DeathLi
     }
 
 	private void update() {
-    	collisionEngine.update();
-
         lock.lock();
     	entities.removeIf(entity -> !entity.isAlive());
         for(Entity entity : entities) {
@@ -96,6 +94,8 @@ public class Game extends JFrame implements Application, AttackListener, DeathLi
         entities.addAll(entityQueue);
         lock.unlock();
         entityQueue.clear();
+
+		collisionEngine.update();
 	}
 
 	@Override

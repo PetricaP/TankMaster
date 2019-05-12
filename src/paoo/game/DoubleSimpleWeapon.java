@@ -4,40 +4,43 @@ import paoo.core.Vector2D;
 
 import java.util.ArrayList;
 
-public class DoubleFireWeapon extends Weapon {
+public class DoubleSimpleWeapon extends Weapon {
     private static final int bulletOffset = 5;
 
-    DoubleFireWeapon(String owner) {
+    DoubleSimpleWeapon(String owner) {
         super(owner);
+
         if(offsets1 == null) {
             offsets1 = new Vector2D[4];
-            offsets1[Direction.UP] = new Vector2D(-2 - bulletOffset, -20);
+            offsets1[Direction.UP] = new Vector2D(-2 - bulletOffset, -15);
             offsets1[Direction.RIGHT] = new Vector2D(10, bulletOffset);
             offsets1[Direction.DOWN] = new Vector2D(-3 - bulletOffset, 10);
             offsets1[Direction.LEFT] = new Vector2D(-20, bulletOffset);
 
             offsets2 = new Vector2D[4];
-            offsets2[Direction.UP] = new Vector2D(-2 + bulletOffset, -20);
+            offsets2[Direction.UP] = new Vector2D(-2 + bulletOffset, -15);
             offsets2[Direction.RIGHT] = new Vector2D(10, -bulletOffset);
             offsets2[Direction.DOWN] = new Vector2D(-3 + bulletOffset, 10);
             offsets2[Direction.LEFT] = new Vector2D(-20, -bulletOffset);
         }
+
         ChangeOffset();
     }
 
     @Override
     public void setLookingDirection(int direction) {
         super.setLookingDirection(direction);
+
         ChangeOffset();
     }
 
     @Override
     ArrayList<Bullet> fire() {
         ArrayList<Bullet> bullets = new ArrayList<>();
-        bullets.add(new FireBall(new Vector2D(getPosition()).add(offset1), getLookingDirection(),
-                getOwner() + "FireBullet"));
-        bullets.add(new FireBall(new Vector2D(getPosition()).add(offset2), getLookingDirection(),
-                getOwner() + "FireBullet"));
+        bullets.add(new SimpleBullet(new Vector2D(getPosition()).add(offset1),
+                    getLookingDirection(), getOwner() + "SimpleBullet"));
+        bullets.add(new SimpleBullet(new Vector2D(getPosition()).add(offset2),
+                getLookingDirection(), getOwner() + "SimpleBullet"));
         return bullets;
     }
 
@@ -48,7 +51,6 @@ public class DoubleFireWeapon extends Weapon {
 
     private static Vector2D[] offsets1;
     private static Vector2D[] offsets2;
-
-    private Vector2D offset1 = new Vector2D();
-    private Vector2D offset2 = new Vector2D();
+    private Vector2D offset1;
+    private Vector2D offset2;
 }

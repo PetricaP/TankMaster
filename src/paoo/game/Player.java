@@ -14,7 +14,7 @@ class Player implements Entity, KeyListener, Collidable {
 
 		dimensions = new Vector2D(50, 50);
 
-		tank = TankFactory.create("Player", Tank.Type.PLAYER_2);
+		tank = TankFactory.create("Player", Tank.Type.PLAYER_3);
 		if(tank == null) {
 			System.err.println("Couldn't create tank for player");
 			System.exit(-1);
@@ -58,7 +58,7 @@ class Player implements Entity, KeyListener, Collidable {
 
 	@Override
     public void update() {
-    	final int speed = 1;
+    	final int speed = 3;
     	collider.setPosition(position);
     	velocity.y = 0;
 		if(KeyboardManager.getInstance().isPressed('w')) {
@@ -128,6 +128,16 @@ class Player implements Entity, KeyListener, Collidable {
 	@Override
 	public void onCollisionEnter(Collision collision) {
 	    System.out.println("Player colliding");
+	    String tag = collision.getOtherObject().getTag();
+	    if(tag.contains("Wall") || tag.equals("Enemy")) {
+	        Collision.resolveCollision(this, collision.getOtherObject());
+		}
+	}
+
+	@Override
+	public void setPosition(Vector2D position) {
+	    this.position = position;
+	    collider.setPosition(position);
 	}
 
 	@Override

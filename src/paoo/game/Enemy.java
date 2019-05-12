@@ -61,8 +61,8 @@ public class Enemy implements Entity, Collidable {
     public void onCollisionEnter(Collision collision) {
         String tag = collision.getOtherObject().getTag();
         if(tag.contains("Player") && tag.contains("Bullet")) {
-            --health;
-            if(health == 0) {
+            health -= ((Bullet)collision.getOtherObject()).getDamage();
+            if(health <= 0) {
                 alive = false;
                 for(DeathListener listener : deathListeners) {
                     listener.onDeath(new TankExplosionAnimation(position));
@@ -70,37 +70,15 @@ public class Enemy implements Entity, Collidable {
             }
         }
 
-        if(tag.equals("Enemy") || tag.equals("Player")) {
-            position.sub(new Vector2D(velocity).mul(2));
+        if(tag.equals("Enemy") || tag.equals("Player") || tag.equals("Wall")) {
+            Collision.resolveCollision(this, collision.getOtherObject());
             velocity = new Vector2D(0, 0);
         }
+    }
 
-        if(tag.equals("Wall")) {
-            position.sub(new Vector2D(velocity).mul(2));
-            switch(movingDirection) {
-                case Direction.UP:
-                    movingDirection = Direction.DOWN;
-                    velocity = new Vector2D(0, speed);
-                    tank.setLookingDirection(Direction.DOWN);
-                    break;
-                case Direction.DOWN:
-                    movingDirection = Direction.UP;
-                    velocity = new Vector2D(0, -speed);
-                    tank.setLookingDirection(Direction.UP);
-                    break;
-                case Direction.LEFT:
-                    movingDirection = Direction.RIGHT;
-                    velocity = new Vector2D(speed, 0);
-                    tank.setLookingDirection(Direction.RIGHT);
-                    break;
-                case Direction.RIGHT:
-                    movingDirection = Direction.LEFT;
-                    velocity = new Vector2D(-speed, 0);
-                    tank.setLookingDirection(Direction.LEFT);
-                    break;
-            }
-        }
-        // System.out.println("Enemy collides");
+    @Override
+    public void setPosition(Vector2D position) {
+        this.position = position;
     }
 
     @Override

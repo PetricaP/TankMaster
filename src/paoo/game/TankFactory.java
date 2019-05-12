@@ -11,33 +11,43 @@ class TankFactory {
         String filePath = "res/images/tanks.png";
         Rectangle rect;
 
+        Weapon weapon;
         switch(type) {
             case PLAYER_1:
                 rect = new Rectangle(0, 0, 150, 200);
+                weapon = new SingleSimpleWeapon(owner);
                 break;
             case PLAYER_2:
-                rect = new Rectangle(180, 0, 150, 200);
+                rect = new Rectangle(150, 0, 150, 200);
+                weapon = new DoubleSimpleWeapon(owner);
                 break;
             case PLAYER_3:
-                rect = new Rectangle(360, 0, 150, 200);
+                rect = new Rectangle(300, 0, 150, 200);
+                weapon = new SingleFireWeapon(owner);
                 break;
             case ENEMY_BLUE_1:
-                rect = new Rectangle(0, 230, 150, 180);
+                rect = new Rectangle(0, 200, 150, 165);
+                weapon = new DoubleSimpleWeapon(owner);
                 break;
             case ENEMY_BLUE_2:
-                rect = new Rectangle(180, 230, 150, 180);
+                rect = new Rectangle(150, 200, 150, 165);
+                weapon = new SingleSimpleWeapon(owner);
                 break;
             case ENEMY_BLUE_3:
-                rect = new Rectangle(360, 230, 150, 180);
+                rect = new Rectangle(300, 200, 150, 165);
+                weapon = new SingleSimpleWeapon(owner);
                 break;
             case ENEMY_RED_1:
-                rect = new Rectangle(0, 430, 150, 175);
+                rect = new Rectangle(0, 365, 140, 180);
+                weapon = new SingleFireWeapon(owner);
                 break;
             case ENEMY_RED_2:
-                rect = new Rectangle(180, 430, 150, 175);
+                rect = new Rectangle(140, 365, 140, 180);
+                weapon = new SingleFireWeapon(owner);
                 break;
             case ENEMY_RED_3:
-                rect = new Rectangle(360, 430, 150, 175);
+                rect = new Rectangle(280, 365, 140, 180);
+                weapon = new DoubleFireWeapon(owner);
                 break;
             default:
             return null;
@@ -46,7 +56,7 @@ class TankFactory {
         try {
             BufferedImage tankImage = ImageLoader.getInstance().loadImage(filePath)
                     .getSubimage(rect.x, rect.y, rect.width, rect.height);
-            return new Tank(tankImage, new DoubleFireWeapon(owner));
+            return new Tank(tankImage, weapon);
         } catch(IOException e) {
             System.err.println("Couldn't load resource " + filePath);
             return null;

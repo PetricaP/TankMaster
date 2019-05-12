@@ -16,6 +16,11 @@ public class Wall implements Collidable {
     }
 
     @Override
+    public void setPosition(Vector2D position) {
+        this.position = position;
+    }
+
+    @Override
     public Collider getCollider() {
         return collider;
     }

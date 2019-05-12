@@ -100,6 +100,14 @@ public class FireBall extends Bullet {
                            getDimensions().x, getDimensions().y, null);
     }
 
+    @Override
+    int getDamage() {
+        return 2;
+    }
+
+    @Override
+    public void setPosition(Vector2D position) { }
+
     private static Map<BufferedImage, BufferedImage[]> imageCache;
     private static ArrayList<Pair<Vector2D, Vector2D>> animationRects = null;
     private static final int FRAME_TIME = 100;

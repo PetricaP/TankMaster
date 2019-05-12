@@ -85,6 +85,8 @@ abstract class Bullet implements Entity, Collidable {
         this.listener = listener;
     }
 
+    abstract int getDamage();
+
     private DeathListener listener = null;
     private boolean alive;
     private Collider collider;

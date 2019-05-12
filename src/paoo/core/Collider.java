@@ -6,4 +6,5 @@ public interface Collider {
     void setDimensions(Vector2D dimensions);
     Vector2D getPosition();
     Vector2D getDimensions();
+    Vector2D getCenter();
 }

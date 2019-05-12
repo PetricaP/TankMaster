@@ -44,6 +44,11 @@ public class AABBCollider implements Collider {
         return dimensions;
     }
 
+    @Override
+    public Vector2D getCenter() {
+        return center;
+    }
+
     private Vector2D position;
     private Vector2D center;
     private Vector2D dimensions;
