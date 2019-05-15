@@ -1,4 +1,6 @@
-package paoo.core;
+package paoo.core.collisions;
+
+import paoo.core.utils.Vector2D;
 
 public interface Collider {
     Collision resolveCollision(Collider other);

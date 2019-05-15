@@ -1,14 +1,18 @@
-package paoo.game;
+package paoo.game.animations;
 
 
 import paoo.core.*;
+import paoo.core.json.JsonObject;
+import paoo.core.utils.Pair;
+import paoo.core.utils.Vector2D;
+import paoo.game.DeathListener;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-class BulletExplosionAnimation implements Entity {
-    BulletExplosionAnimation(Vector2D position) {
+public class BulletExplosionAnimation implements Entity {
+    public BulletExplosionAnimation(Vector2D position) {
         this.position = position;
         this.dimensions = new Vector2D(30, 30);
         alive = true;
@@ -40,9 +44,9 @@ class BulletExplosionAnimation implements Entity {
 
     @Override
     public void draw(Graphics graphics) {
-        graphics.drawImage(animation.getCurrentImage(), position.x - dimensions.x / 2,
-                position.y - dimensions.y / 2,
-                dimensions.x, dimensions.y, null);
+        graphics.drawImage(animation.getCurrentImage(), (int)(position.x - dimensions.x / 2),
+                (int)(position.y - dimensions.y / 2),
+                (int)dimensions.x, (int)dimensions.y, null);
     }
 
     @Override
@@ -68,4 +72,9 @@ class BulletExplosionAnimation implements Entity {
     private Vector2D dimensions;
     private Vector2D position;
     private Animation animation;
+
+    @Override
+    public JsonObject toJson() {
+        return JsonObject.build().addAttribute("position", position.toJson()).getObject();
+    }
 }

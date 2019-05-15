@@ -1,15 +1,18 @@
-package paoo.core;
+package paoo.core.utils;
 
-public class Vector2D {
-    public int x;
-    public int y;
+import paoo.core.json.JsonConvertible;
+import paoo.core.json.JsonObject;
+
+public class Vector2D implements JsonConvertible {
+    public float x;
+    public float y;
 
     public Vector2D() {
         x = 0;
         y = 0;
     }
 
-    public Vector2D(int x, int y) {
+    public Vector2D(float x, float y) {
         this.x = x;
         this.y = y;
     }
@@ -31,15 +34,20 @@ public class Vector2D {
         return this;
     }
 
-    public Vector2D div(int factor) {
+    public Vector2D div(float factor) {
         x /= factor;
         y /= factor;
         return this;
     }
 
-    public Vector2D mul(int factor) {
+    public Vector2D mul(float factor) {
         x *= factor;
         y *= factor;
         return this;
+    }
+
+    @Override
+    public JsonObject toJson() {
+        return JsonObject.build().addAttribute("x", x).addAttribute("y", y).getObject();
     }
 }

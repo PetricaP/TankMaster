@@ -1,4 +1,6 @@
-package paoo.core;
+package paoo.core.collisions;
+
+import paoo.core.utils.Vector2D;
 
 public class AABBCollider implements Collider {
     public AABBCollider(Vector2D position, Vector2D dimensions) {

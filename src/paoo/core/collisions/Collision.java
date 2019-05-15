@@ -1,4 +1,6 @@
-package paoo.core;
+package paoo.core.collisions;
+
+import paoo.core.utils.Vector2D;
 
 public class Collision {
     private Collidable otherObject;
@@ -22,28 +24,28 @@ public class Collision {
     public static void resolveCollision(Collidable entity1, Collidable entity2) {
         Collider collider1 = entity1.getCollider();
 
-        int xc = collider1.getCenter().x;
-        int yc = collider1.getCenter().y;
+        float xc = collider1.getCenter().x;
+        float yc = collider1.getCenter().y;
 
         Collider collider2 = entity2.getCollider();
 
-        int x1 = collider2.getPosition().x;
-        int y1 = collider2.getPosition().y;
+        float x1 = collider2.getPosition().x;
+        float y1 = collider2.getPosition().y;
 
-        int x1p = x1 + collider2.getDimensions().x;
-        int y1p = y1 + collider2.getDimensions().y;
+        float x1p = x1 + collider2.getDimensions().x;
+        float y1p = y1 + collider2.getDimensions().y;
 
-        int x2 = x1;
-        int y2 = y1p;
+        float x2 = x1;
+        float y2 = y1p;
 
-        int x2p = x1p;
-        int y2p = y1;
+        float x2p = x1p;
+        float y2p = y1;
 
-        int yc1 = y1 - (y1p - y1) * (x1 - xc) / (x1p - x1);
-        int yc2 = y2 - (y2p - y2) * (x2 - xc) / (x2p - x2);
+        float yc1 = y1 - (y1p - y1) * (x1 - xc) / (x1p - x1);
+        float yc2 = y2 - (y2p - y2) * (x2 - xc) / (x2p - x2);
 
-        int d1 = yc1 - yc;
-        int d2 = yc2 - yc;
+        float d1 = yc1 - yc;
+        float d2 = yc2 - yc;
 
         // The coordinates of the corners for the two objects
         x1 = collider1.getPosition().x;

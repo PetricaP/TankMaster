@@ -1,5 +1,8 @@
 package paoo.core;
 
+import paoo.core.utils.Pair;
+import paoo.core.utils.Vector2D;
+
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -14,10 +17,10 @@ public class Animation {
 
         imageCache = new BufferedImage[animationRects.size()];
 
-        imageCache[currentFrame] = spriteSheet.getSubimage(rects.get(currentFrame).first.x,
-                                               rects.get(currentFrame).first.y,
-                                               rects.get(currentFrame).second.x,
-                                               rects.get(currentFrame).second.y);
+        imageCache[currentFrame] = spriteSheet.getSubimage((int)rects.get(currentFrame).first.x,
+                                               (int)rects.get(currentFrame).first.y,
+                                               (int)rects.get(currentFrame).second.x,
+                                               (int)rects.get(currentFrame).second.y);
         this.firstRepeating = firstRepeating;
         this.listener = listener;
     }
@@ -34,10 +37,11 @@ public class Animation {
                 }
             }
             if(imageCache[currentFrame] == null) {
-                imageCache[currentFrame] = spriteSheet.getSubimage(rects.get(currentFrame).first.x,
-                        rects.get(currentFrame).first.y,
-                        rects.get(currentFrame).second.x,
-                        rects.get(currentFrame).second.y);
+                imageCache[currentFrame] = spriteSheet.getSubimage(
+                        (int)rects.get(currentFrame).first.x,
+                        (int)rects.get(currentFrame).first.y,
+                        (int)rects.get(currentFrame).second.x,
+                        (int)rects.get(currentFrame).second.y);
             }
             lastTime = currentTime;
         }

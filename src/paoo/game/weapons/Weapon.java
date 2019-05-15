@@ -1,17 +1,19 @@
-package paoo.game;
+package paoo.game.weapons;
 
-import paoo.core.Vector2D;
+import paoo.core.utils.Vector2D;
+import paoo.game.Direction;
+import paoo.game.entities.bullets.Bullet;
 
 import java.util.ArrayList;
 
-abstract class Weapon {
+public abstract class Weapon {
     Weapon(String owner) {
         this.owner = owner;
         this.position = new Vector2D(0, 0);
         lookingDirection = Direction.DOWN;
     }
 
-    abstract ArrayList<Bullet> fire();
+    public abstract ArrayList<Bullet> fire();
 
     public void setPosition(Vector2D position) {
         this.position = position;
@@ -22,7 +24,7 @@ abstract class Weapon {
         return owner;
     }
 
-    void setLookingDirection(int direction) {
+    public void setLookingDirection(int direction) {
         lookingDirection = direction;
     }
 

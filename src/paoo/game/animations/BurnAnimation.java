@@ -1,25 +1,31 @@
-package paoo.game;
+package paoo.game.animations;
 
-import paoo.core.*;
+import paoo.core.Animation;
+import paoo.core.Entity;
+import paoo.core.ImageLoader;
+import paoo.core.json.JsonObject;
+import paoo.core.utils.Pair;
+import paoo.core.utils.Vector2D;
+import paoo.game.DeathListener;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-class TankExplosionAnimation implements Entity {
-TankExplosionAnimation(Vector2D position) {
+public class BurnAnimation implements Entity {
+    public BurnAnimation(Vector2D position) {
         this.position = position;
         alive = true;
         ArrayList<Pair<Vector2D, Vector2D>> animationRects = new ArrayList<>();
-        Vector2D dimensions = new Vector2D(120, 120);
+        Vector2D dimensions = new Vector2D(250, 350);
         for(int i = 0; i < 4; ++i) {
-            for(int j = 0; j < 4; ++j) {
-                animationRects.add(new Pair<>(new Vector2D(i * 120, j * 120), dimensions));
+            for(int j = 0; j < 3; ++j) {
+                animationRects.add(new Pair<>(new Vector2D(i * 250, j * 350), dimensions));
             }
         }
         try {
-            animation = new Animation(ImageLoader.getInstance().loadImage("res/images/bullet_explosion.png"),
-                    30, animationRects, 0, () -> {
+            animation = new Animation(ImageLoader.getInstance().loadImage("res/images/fire_animation.png"),
+                    50, animationRects, 0, () -> {
                                                                         System.out.println("Animation finished");
                                                                         alive = false;
                                                                     });
@@ -41,9 +47,9 @@ TankExplosionAnimation(Vector2D position) {
 
     @Override
     public void draw(Graphics graphics) {
-        graphics.drawImage(animation.getCurrentImage(), position.x - dimensions.x / 2,
-                position.y - dimensions.y / 2,
-                dimensions.x, dimensions.y, null);
+        graphics.drawImage(animation.getCurrentImage(), (int)(position.x - dimensions.x / 2),
+                (int)(position.y - dimensions.y / 2),
+                (int)dimensions.x, (int)dimensions.y, null);
     }
 
     @Override
@@ -66,7 +72,12 @@ TankExplosionAnimation(Vector2D position) {
         return dimensions;
     }
 
-    private static Vector2D dimensions = new Vector2D(100, 100);
+    @Override
+    public JsonObject toJson() {
+        return JsonObject.build().addAttribute("position", position.toJson()).getObject();
+    }
+
+    private static Vector2D dimensions = new Vector2D(70, 70);
 
     private Animation animation;
     private boolean alive;

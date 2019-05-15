@@ -1,4 +1,4 @@
-package paoo.core;
+package paoo.core.utils;
 
 public class Pair <T, U>{
     public Pair() {}

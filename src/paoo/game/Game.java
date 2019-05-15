@@ -1,12 +1,22 @@
 package paoo.game;
 
 import paoo.core.*;
+import paoo.core.collisions.Collidable;
+import paoo.core.collisions.CollisionEngine;
+import paoo.core.json.JsonObject;
+import paoo.game.entities.bullets.Bullet;
+import paoo.game.entities.Enemy;
+import paoo.game.entities.Player;
+import paoo.game.entities.staticentities.GreenBush;
+import paoo.game.entities.staticentities.MediumTree;
+import paoo.game.entities.staticentities.SmallTree;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.Vector;
 
 public class Game extends JFrame implements Application, AttackListener, DeathListener {
 	enum State {
@@ -24,78 +34,57 @@ public class Game extends JFrame implements Application, AttackListener, DeathLi
     	setVisible(true);
     	setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-		PopulateEntities();
+		loadLevel("Backup.json");
 		state = State.PLAY;
 	}
 
-	private void PopulateEntities() {
-		player.addListener(this);
-		entities.add(player);
-		collisionEngine.addObject(player);
-
-		Enemy enemy = new Enemy(Tank.Type.ENEMY_BLUE_1, new Vector2D(600, 200), 1);
-		Enemy enemy2 = new Enemy(Tank.Type.ENEMY_BLUE_2, new Vector2D(600, 400), 1);
-		Enemy enemy3 = new Enemy(Tank.Type.ENEMY_RED_3, new Vector2D(600, 600), 2);
-
-		enemy.addAttackListener(this);
-		enemy2.addAttackListener(this);
-		enemy3.addAttackListener(this);
-		enemy.attachDeathListener(this);
-		enemy2.attachDeathListener(this);
-		enemy3.attachDeathListener(this);
-
-		entities.add(enemy);
-		entities.add(enemy2);
-		entities.add(enemy3);
-
-		collisionEngine.addObject(enemy);
-		collisionEngine.addObject(enemy2);
-		collisionEngine.addObject(enemy3);
-
-		Wall top = new Wall(new Vector2D(0, 0), new Vector2D(800, 20));
-		collisionEngine.addObject(top);
-		entities.add(top);
-
-		Wall bottom = new Wall(new Vector2D(0, 745), new Vector2D(800, 20));
-		collisionEngine.addObject(bottom);
-		entities.add(bottom);
-
-		Wall left = new Wall(new Vector2D(0, 20), new Vector2D(20, 760));
-		collisionEngine.addObject(left);
-		entities.add(left);
-
-		Wall right = new Wall(new Vector2D(780, 20), new Vector2D(20, 760));
-		collisionEngine.addObject(right);
-		entities.add(right);
+	private void loadLevel(String filePath) {
+		Level level = Level.loadFromFile(filePath);
+		entities.clear();
+		for(Entity entity : level.getEntities()) {
+			if(entity instanceof Collidable) {
+				collisionEngine.addObject((Collidable)entity);
+			}
+			if(entity instanceof Enemy) {
+				((Enemy)entity).addAttackListener(this);
+			}
+			if(entity instanceof Player) {
+				((Player) entity).addAttackListener(this);
+				camera = new Camera(entity);
+			}
+			entity.attachDeathListener(this);
+		}
+		entities.addAll(level.getEntities());
 	}
 
 	@Override
     public void run() {
     	while(state != State.EXIT) {
+    	    if(KeyboardManager.getInstance().isPressed('\n')) {
+    	    	state = State.EXIT;
+			}
     		try {
     			Thread.sleep(10);
 		    } catch(InterruptedException e) {
     		    e.printStackTrace();
 		    }
     		update();
-    		EventQueue.invokeLater(() -> {
-    		    repaint();
-                Toolkit.getDefaultToolkit().sync();
-			});
+            repaint();
+            Toolkit.getDefaultToolkit().sync();
 	    }
+    	saveToFile("Backup.json");
     }
 
 	private void update() {
-        lock.lock();
     	entities.removeIf(entity -> !entity.isAlive());
         for(Entity entity : entities) {
         	entity.update();
 		}
         entities.addAll(entityQueue);
-        lock.unlock();
         entityQueue.clear();
 
 		collisionEngine.update();
+		camera.update();
 	}
 
 	@Override
@@ -110,6 +99,39 @@ public class Game extends JFrame implements Application, AttackListener, DeathLi
 		entityQueue.add(entity);
 	}
 
+	private void saveToFile(String filename) {
+	    try {
+	        JsonObject.Builder builder = JsonObject.build();
+			PrintWriter file = new PrintWriter(filename);
+			int enemyNumber = 0;
+			int bulletNumber = 0;
+			int greenBushNumber = 0;
+			int mediumTreeNumber = 0;
+			int smallTreeNumber = 0;
+			for(Entity entity : entities) {
+				if(entity instanceof Player) {
+					builder.addAttribute("Player", entity.toJson());
+				} else if(entity instanceof Bullet) {
+					builder.addAttribute("Bullet" + bulletNumber++, entity.toJson());
+				} else if(entity instanceof Enemy) {
+					builder.addAttribute("Enemy" + enemyNumber++, entity.toJson());
+				} else if(entity instanceof GreenBush) {
+					builder.addAttribute("GreenBush" + greenBushNumber++, entity.toJson());
+                } else if(entity instanceof MediumTree) {
+					builder.addAttribute("MediumTree" + mediumTreeNumber++, entity.toJson());
+                } else if(entity instanceof SmallTree) {
+                    builder.addAttribute("SmallTree" + smallTreeNumber++, entity.toJson());
+                }
+			}
+			file.write(builder.getObject().toString());
+			file.close();
+			System.out.println(builder.getObject());
+		} catch(FileNotFoundException e) {
+	    	System.err.println("Couldn't save game");
+	    	e.printStackTrace();
+		}
+	}
+
 	class DrawCanvas extends JPanel {
         @Override
         public void paintComponent(Graphics g) {
@@ -117,17 +139,21 @@ public class Game extends JFrame implements Application, AttackListener, DeathLi
             g.setColor(Color.GRAY);
 			g.fillRect(0, 0, 800, 800);
 
-			lock.lock();
-			for(Entity entity : entities) {
-				entity.draw(g);
+			if(camera != null) {
+				g.translate((int) camera.getOffset().x, (int) camera.getOffset().y);
+				for (Entity entity : entities) {
+					if (entity.getPosition().x + camera.getOffset().x + entity.getDimensions().x > 0 &&
+                        entity.getPosition().y + camera.getOffset().y + entity.getDimensions().y > 0 &&
+                        entity.getPosition().x + camera.getOffset().x < 800 &&
+                        entity.getPosition().y + camera.getOffset().y < 800)
+						entity.draw(g);
+				}
 			}
-			lock.unlock();
         }
     }
 
-    private Lock lock = new ReentrantLock();
-	private Player player = new Player(new Vector2D(400, 400));
-	private ArrayList<Entity> entities = new ArrayList<>();
+	private Camera camera;
+	private Vector<Entity> entities = new Vector<>();
 	private ArrayList<Entity> entityQueue = new ArrayList<>();
 	private CollisionEngine collisionEngine = new CollisionEngine();
 	private State state;

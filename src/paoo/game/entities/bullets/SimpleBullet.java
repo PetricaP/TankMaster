@@ -1,22 +1,23 @@
-package paoo.game;
+package paoo.game.entities.bullets;
 
-import paoo.core.Vector2D;
+import paoo.core.utils.Vector2D;
 
 import java.awt.*;
 
 public class SimpleBullet extends Bullet {
-    SimpleBullet(Vector2D position, int direction, String tag) {
+    public SimpleBullet(Vector2D position, int direction, String tag) {
         super(position, new Vector2D(6, 6), direction, 3, tag);
     }
 
     @Override
     public void draw(Graphics graphics) {
         graphics.setColor(Color.BLACK);
-        graphics.fillOval(getPosition().x, getPosition().y, getDimensions().x, getDimensions().y);
+        graphics.fillOval((int)getPosition().x, (int)getPosition().y,
+                          (int)getDimensions().x, (int)getDimensions().y);
     }
 
     @Override
-    int getDamage() {
+    public int getDamage() {
         return 1;
     }
 

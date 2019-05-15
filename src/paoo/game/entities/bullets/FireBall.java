@@ -1,9 +1,10 @@
-package paoo.game;
+package paoo.game.entities.bullets;
 
 import paoo.core.Animation;
 import paoo.core.ImageLoader;
-import paoo.core.Pair;
-import paoo.core.Vector2D;
+import paoo.core.utils.Pair;
+import paoo.core.utils.Vector2D;
+import paoo.game.Direction;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FireBall extends Bullet {
-    FireBall(Vector2D position, int direction, String tag) {
+    public FireBall(Vector2D position, int direction, String tag) {
         super(position, new Vector2D(20, 7), direction, 3, tag);
 
         this.direction = direction;
@@ -23,7 +24,9 @@ public class FireBall extends Bullet {
         switch(direction) {
             case Direction.UP:
             case Direction.DOWN:
-                setDimension(new Vector2D(getDimensions().y, getDimensions().x));
+                float dim1 = getDimensions().y;
+                float dim2 = getDimensions().x;
+                setDimension(new Vector2D(dim1, dim2));
                 break;
         }
 
@@ -96,12 +99,12 @@ public class FireBall extends Bullet {
             }
         }
 
-        graphics.drawImage(row[direction], getPosition().x, getPosition().y,
-                           getDimensions().x, getDimensions().y, null);
+        graphics.drawImage(row[direction], (int)getPosition().x, (int)getPosition().y,
+                           (int)getDimensions().x, (int)getDimensions().y, null);
     }
 
     @Override
-    int getDamage() {
+    public int getDamage() {
         return 2;
     }
 

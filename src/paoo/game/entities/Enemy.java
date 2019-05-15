@@ -1,14 +1,24 @@
-package paoo.game;
+package paoo.game.entities;
 
 import paoo.core.*;
+import paoo.core.collisions.AABBCollider;
+import paoo.core.collisions.Collidable;
+import paoo.core.collisions.Collider;
+import paoo.core.collisions.Collision;
+import paoo.core.json.JsonObject;
+import paoo.core.utils.Vector2D;
+import paoo.game.*;
+import paoo.game.animations.TankExplosionAnimation;
+import paoo.game.entities.bullets.Bullet;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class Enemy implements Entity, Collidable {
-    Enemy(Tank.Type type, Vector2D position, int speed) {
+    public Enemy(Tank.Type type, Vector2D position, int speed) {
         this.position = position;
         this.speed = speed;
+        this.type = type;
         dimensions = new Vector2D(50, 50);
 
         tank = TankFactory.create("Enemy", type);
@@ -65,12 +75,12 @@ public class Enemy implements Entity, Collidable {
             if(health <= 0) {
                 alive = false;
                 for(DeathListener listener : deathListeners) {
-                    listener.onDeath(new TankExplosionAnimation(position));
+                    listener.onDeath(new TankExplosionAnimation(position.add(dimensions.div(2))));
                 }
             }
         }
 
-        if(tag.equals("Enemy") || tag.equals("Player") || tag.equals("Wall")) {
+        if(tag.equals("Enemy") || tag.equals("Player") || tag.equals("Wall") || tag.contains("Static")) {
             Collision.resolveCollision(this, collision.getOtherObject());
             velocity = new Vector2D(0, 0);
         }
@@ -117,7 +127,7 @@ public class Enemy implements Entity, Collidable {
         }
     }
 
-    void addAttackListener(AttackListener listener) {
+    public void addAttackListener(AttackListener listener) {
         attackListeners.add(listener);
     }
 
@@ -145,6 +155,7 @@ public class Enemy implements Entity, Collidable {
     private boolean moving;
     private int movingDirection;
     private int speed;
+    private Tank.Type type;
     private Collider collider;
     private Vector2D position;
     private Vector2D dimensions;
@@ -153,4 +164,12 @@ public class Enemy implements Entity, Collidable {
     private Tank tank;
     private ArrayList<AttackListener> attackListeners;
     private ArrayList<DeathListener> deathListeners;
+
+    @Override
+    public JsonObject toJson() {
+        return JsonObject.build().addAttribute("position", position.toJson())
+                .addAttribute("speed", speed)
+                .addAttribute("direction", movingDirection)
+                .addAttribute("type", type.toString()).getObject();
+    }
 }

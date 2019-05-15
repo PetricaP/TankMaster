@@ -1,6 +1,8 @@
 package paoo.game;
 
-import paoo.core.Vector2D;
+import paoo.core.utils.Vector2D;
+import paoo.game.entities.bullets.Bullet;
+import paoo.game.weapons.Weapon;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -8,8 +10,8 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-class Tank {
-    enum Type {
+public class Tank {
+    public enum Type {
         PLAYER_1,
         PLAYER_2,
         PLAYER_3,
@@ -18,7 +20,62 @@ class Tank {
         ENEMY_BLUE_3,
         ENEMY_RED_1,
         ENEMY_RED_2,
-        ENEMY_RED_3
+        ENEMY_RED_3;
+
+        @Override
+        public String toString() {
+            switch(this) {
+                case PLAYER_1:
+                    return "PLAYER_1";
+                case PLAYER_2:
+                    return "PLAYER_2";
+                case PLAYER_3:
+                    return "PLAYER_3";
+                case ENEMY_BLUE_1:
+                    return "ENEMY_BLUE_1";
+                case ENEMY_BLUE_2:
+                    return "ENEMY_BLUE_2";
+                case ENEMY_BLUE_3:
+                    return "ENEMY_BLUE_3";
+                case ENEMY_RED_1:
+                    return "ENEMY_RED_1";
+                case ENEMY_RED_2:
+                    return "ENEMY_RED_2";
+                case ENEMY_RED_3:
+                    return "ENEMY_RED_3";
+            }
+            return "";
+        }
+        public static Type fromString(String string) {
+            if(string.equals("PLAYER_1")) {
+                return PLAYER_1;
+            }
+            if(string.equals("PLAYER_2")) {
+                return PLAYER_2;
+            }
+            if(string.equals("PLAYER_3")) {
+                return PLAYER_3;
+            }
+            if(string.equals("ENEMY_BLUE_1")) {
+                return ENEMY_BLUE_1;
+            }
+            if(string.equals("ENEMY_BLUE_2")) {
+                return ENEMY_BLUE_2;
+            }
+            if(string.equals("ENEMY_BLUE_3")) {
+                return ENEMY_BLUE_3;
+            }
+            if(string.equals("ENEMY_RED_1")) {
+                return ENEMY_RED_1;
+            }
+            if(string.equals("ENEMY_RED_2")) {
+                return ENEMY_RED_2;
+            }
+            if(string.equals("ENEMY_RED_3")) {
+                return ENEMY_RED_3;
+            }
+            return ENEMY_BLUE_1;
+        }
     }
 
     Tank(BufferedImage image, Weapon weapon) {
@@ -33,19 +90,19 @@ class Tank {
         this.weapon = weapon;
     }
 
-    void draw(Graphics graphics) {
+    public void draw(Graphics graphics) {
         // TODO: Shouldn't have the need to do this check
         if(directionalImages[lookingDirection] != null && position != null && dimensions != null) {
             graphics.drawImage(directionalImages[lookingDirection],
-                    position.x, position.y, dimensions.x, dimensions.y, null);
+                    (int)position.x, (int)position.y, (int)dimensions.x, (int)dimensions.y, null);
         }
     }
 
-    ArrayList<Bullet> shoot() {
+    public ArrayList<Bullet> shoot() {
         return weapon.fire();
     }
 
-    void setLookingDirection(int lookingDirection) {
+    public void setLookingDirection(int lookingDirection) {
         if(lookingDirection != this.lookingDirection) {
             weapon.setLookingDirection(lookingDirection);
             this.lookingDirection = lookingDirection;
@@ -75,7 +132,7 @@ class Tank {
         }
     }
 
-    void setPosition(Vector2D position) {
+    public void setPosition(Vector2D position) {
         this.position = position;
         System.out.println("Setting tank position to " + position.x + ", " + position.y);
         System.out.println("Setting weapon position to " + (position.x + dimensions.x / 2)

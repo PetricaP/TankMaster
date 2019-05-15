@@ -1,14 +1,21 @@
-package paoo.game;
+package paoo.game.entities;
 
 import paoo.core.*;
+import paoo.core.collisions.AABBCollider;
+import paoo.core.collisions.Collidable;
+import paoo.core.collisions.Collider;
+import paoo.core.collisions.Collision;
+import paoo.core.json.JsonConvertible;
+import paoo.core.json.JsonObject;
+import paoo.core.utils.Vector2D;
+import paoo.game.*;
+import paoo.game.entities.bullets.Bullet;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-class Player implements Entity, KeyListener, Collidable {
-    Player(Vector2D position) {
+public class Player implements Entity, Collidable, JsonConvertible {
+    public Player(Vector2D position, int lookingDirection) {
         this.position = position;
         velocity = new Vector2D(0, 0);
 
@@ -19,9 +26,12 @@ class Player implements Entity, KeyListener, Collidable {
 			System.err.println("Couldn't create tank for player");
 			System.exit(-1);
 		}
+		tank.setLookingDirection(lookingDirection);
+		this.lookingDirection = lookingDirection;
 
         attackListeners = new ArrayList<>();
 		collider = new AABBCollider(position, dimensions);
+		fireRate = 3;
     }
 
     @Override
@@ -78,58 +88,47 @@ class Player implements Entity, KeyListener, Collidable {
 			}
 		}
 		if(velocity.x > 0) {
-			tank.setLookingDirection(Direction.RIGHT);
+			lookingDirection = Direction.RIGHT;
+			tank.setLookingDirection(lookingDirection);
 		}
 		if(velocity.x < 0) {
-			tank.setLookingDirection(Direction.LEFT);
+			lookingDirection = Direction.LEFT;
+			tank.setLookingDirection(lookingDirection);
 		}
 		if(velocity.y > 0) {
-			tank.setLookingDirection(Direction.DOWN);
+			lookingDirection = Direction.DOWN;
+			tank.setLookingDirection(lookingDirection);
 		}
 		if(velocity.y < 0) {
-			tank.setLookingDirection(Direction.UP);
+			lookingDirection = Direction.UP;
+			tank.setLookingDirection(lookingDirection);
 		}
 
         position.add(velocity);
 		tank.setPosition(position);
 
 		long currentTime = System.currentTimeMillis();
-		if(currentTime - lastTime > 400) {
-		    lastTime = currentTime;
-			if(KeyboardManager.getInstance().isPressed(' ')) {
-				for(Bullet bullet : tank.shoot()) {
-					for (AttackListener listener : attackListeners) {
-						listener.onShoot(bullet);
-					}
-				}
-			}
+		if(KeyboardManager.getInstance().isPressed(' ')) {
+            if(currentTime - lastTime > 1000 / fireRate) {
+                lastTime = currentTime;
+                for(Bullet bullet : tank.shoot()) {
+                    for (AttackListener listener : attackListeners) {
+                        listener.onShoot(bullet);
+                    }
+                }
+            }
 		}
     }
 
-    void addListener(AttackListener listener) {
+    public void addAttackListener(AttackListener listener) {
     	attackListeners.add(listener);
 	}
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
 
 	@Override
 	public void onCollisionEnter(Collision collision) {
 	    System.out.println("Player colliding");
 	    String tag = collision.getOtherObject().getTag();
-	    if(tag.contains("Wall") || tag.equals("Enemy")) {
+	    if(tag.contains("Wall") || tag.equals("Enemy") || tag.contains("Static")) {
 	        Collision.resolveCollision(this, collision.getOtherObject());
 		}
 	}
@@ -145,10 +144,20 @@ class Player implements Entity, KeyListener, Collidable {
 	    return collider;
 	}
 
+	private float fireRate;
     private Tank tank;
 	private Vector2D position;
 	private Vector2D dimensions;
 	private Vector2D velocity;
 	private ArrayList<AttackListener> attackListeners;
 	private AABBCollider collider;
+	private int lookingDirection;
+
+	@Override
+	public JsonObject toJson() {
+	    return JsonObject.build()
+				.addAttribute("position", position.toJson())
+				.addAttribute("direction", lookingDirection)
+				.getObject();
+	}
 }

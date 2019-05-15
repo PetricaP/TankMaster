@@ -1,5 +1,7 @@
 package paoo.game;
 
-interface AttackListener {
+import paoo.game.entities.bullets.Bullet;
+
+public interface AttackListener {
     void onShoot(Bullet bullet);
 }

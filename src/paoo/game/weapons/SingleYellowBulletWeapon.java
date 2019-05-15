@@ -1,11 +1,14 @@
-package paoo.game;
+package paoo.game.weapons;
 
-import paoo.core.Vector2D;
+import paoo.core.utils.Vector2D;
+import paoo.game.entities.bullets.Bullet;
+import paoo.game.Direction;
+import paoo.game.entities.bullets.YellowBullet;
 
 import java.util.ArrayList;
 
-public class SingleFireWeapon extends Weapon {
-    SingleFireWeapon(String owner) {
+public class SingleYellowBulletWeapon extends Weapon {
+    public SingleYellowBulletWeapon(String owner) {
         super(owner);
 
         if(offsets == null) {
@@ -20,17 +23,9 @@ public class SingleFireWeapon extends Weapon {
     }
 
     @Override
-    public void setLookingDirection(int direction) {
-        super.setLookingDirection(direction);
-
-        ChangeOffset();
-    }
-
-    @Override
-    ArrayList<Bullet> fire() {
+    public ArrayList<Bullet> fire() {
         ArrayList<Bullet> bullets = new ArrayList<>();
-        bullets.add(new FireBall(new Vector2D(getPosition()).add(offset), getLookingDirection(),
-                getOwner() + "FireBullet"));
+        bullets.add(new YellowBullet(new Vector2D(getPosition()).add(offset), getLookingDirection(), 3, getOwner() + "YellowBullet"));
         return bullets;
     }
 
@@ -38,6 +33,6 @@ public class SingleFireWeapon extends Weapon {
         offset = offsets[getLookingDirection()];
     }
 
-    private static Vector2D[] offsets;
     private Vector2D offset;
+    private static Vector2D[] offsets;
 }

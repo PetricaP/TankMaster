@@ -1,11 +1,14 @@
-package paoo.game;
+package paoo.game.weapons;
 
-import paoo.core.Vector2D;
+import paoo.core.utils.Vector2D;
+import paoo.game.entities.bullets.Bullet;
+import paoo.game.Direction;
+import paoo.game.entities.bullets.SimpleBullet;
 
 import java.util.ArrayList;
 
-class SingleSimpleWeapon extends Weapon {
-    SingleSimpleWeapon(String owner) {
+public class SingleSimpleWeapon extends Weapon {
+    public SingleSimpleWeapon(String owner) {
     super(owner);
 
         ChangeOffset();
@@ -19,7 +22,7 @@ class SingleSimpleWeapon extends Weapon {
     }
 
     @Override
-    ArrayList<Bullet> fire() {
+    public ArrayList<Bullet> fire() {
         ArrayList<Bullet> bullets = new ArrayList<>();
         bullets.add(new SimpleBullet(new Vector2D(getPosition()).add(offset), getLookingDirection(),
                 getOwner() + "SimpleBullet"));

@@ -1,4 +1,4 @@
-package paoo.core;
+package paoo.core.collisions;
 
 import java.util.ArrayList;
 
@@ -16,12 +16,8 @@ public class CollisionEngine {
         }
         collidables.removeAll(toRemove);
 
-        for(int i = 0; i < collidables.size(); ++i) {
+        for(int i = 0; i < collidables.size() - 1; ++i) {
             for(int j = i + 1; j < collidables.size(); ++j) {
-                /*if(collidables.get(j).getCollider().getPosition().x >
-                   collidables.get(i).getCollider().getPosition().x + collidables.get(i).getCollider().getDimensions().x) {
-                    break;
-                }*/
                 Collision collision = collidables.get(i).getCollider()
                                         .resolveCollision(collidables.get(j).getCollider());
                 if(collision != null) {

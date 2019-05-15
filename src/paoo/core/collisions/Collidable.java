@@ -1,4 +1,7 @@
-package paoo.core;
+package paoo.core.collisions;
+
+import paoo.core.Entity;
+import paoo.core.utils.Vector2D;
 
 public interface Collidable extends Entity {
     void onCollisionEnter(Collision collision);

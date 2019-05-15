@@ -1,13 +1,14 @@
 package paoo.game;
 
 import paoo.core.ImageLoader;
+import paoo.game.weapons.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-class TankFactory {
-    static Tank create(String owner, Tank.Type type) {
+public class TankFactory {
+    public static Tank create(String owner, Tank.Type type) {
         String filePath = "res/images/tanks.png";
         Rectangle rect;
 
