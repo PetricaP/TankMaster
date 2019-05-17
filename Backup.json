@@ -1,10 +1,10 @@
 {
 	"Player": {
 		"position": {
-			"x": -500.0,
+			"x": -600.0,
 			"y": -350.0
         },
-		"direction": 3
+		"direction": 0
     },
 	"Enemy0": {
 		"position": {
@@ -12,71 +12,55 @@
 			"y": -400.0
         },
 		"speed": 0,
-		"direction": 0,
+		"direction": 2,
 		"type": "ENEMY_BLUE_1"
     },
 	"Bullet0": {
 		"position": {
-			"x": -46.0,
-			"y": -370.0
+			"x": -227.0,
+			"y": 5.0
         },
-		"direction": 3,
+		"direction": 2,
 		"tag": "EnemySimpleBullet"
     },
 	"Bullet1": {
 		"position": {
-			"x": -46.0,
-			"y": -380.0
+			"x": -227.0,
+			"y": -5.0
         },
-		"direction": 3,
+		"direction": 2,
 		"tag": "EnemySimpleBullet"
     },
 	"Bullet2": {
 		"position": {
-			"x": -582.0,
-			"y": -762.0
+			"x": -733.0,
+			"y": -370.0
         },
-		"direction": 0,
+		"direction": 2,
 		"tag": "EnemySimpleBullet"
     },
 	"Bullet3": {
 		"position": {
-			"x": -572.0,
-			"y": -762.0
+			"x": -733.0,
+			"y": -380.0
         },
-		"direction": 0,
+		"direction": 2,
 		"tag": "EnemySimpleBullet"
     },
 	"Bullet4": {
 		"position": {
-			"x": -582.0,
-			"y": -612.0
+			"x": -661.0,
+			"y": -370.0
         },
-		"direction": 0,
+		"direction": 2,
 		"tag": "EnemySimpleBullet"
     },
 	"Bullet5": {
 		"position": {
-			"x": -572.0,
-			"y": -612.0
+			"x": -661.0,
+			"y": -380.0
         },
-		"direction": 0,
-		"tag": "EnemySimpleBullet"
-    },
-	"Bullet6": {
-		"position": {
-			"x": -582.0,
-			"y": -537.0
-        },
-		"direction": 0,
-		"tag": "EnemySimpleBullet"
-    },
-	"Bullet7": {
-		"position": {
-			"x": -572.0,
-			"y": -537.0
-        },
-		"direction": 0,
+		"direction": 2,
 		"tag": "EnemySimpleBullet"
     }
 }

@@ -27,7 +27,8 @@ public class Enemy extends TankEntity {
             }
         }
 
-        if(tag.equals("Enemy") || tag.equals("Player") || tag.equals("Wall") || tag.contains("Static")) {
+        if(tag.equals("Enemy") || tag.equals("Player")
+                || tag.equals("Wall") || tag.contains("Static")) {
             Collision.resolveCollision(this, collision.getOtherObject());
             velocity = new Vector2D(0, 0);
         }

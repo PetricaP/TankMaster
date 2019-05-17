@@ -15,12 +15,14 @@ import paoo.game.entities.staticentities.SmallTree;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Vector;
 import java.awt.event.WindowAdapter;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Game extends JFrame implements Application, AttackListener, DeathListener {
 	enum State {
@@ -45,7 +47,7 @@ public class Game extends JFrame implements Application, AttackListener, DeathLi
 			@Override
 			public void windowClosing(WindowEvent e) {
 			    if(state != State.EXIT) {
-			    	saveToFile("Backup.json");
+			    	saveToFile();
 				}
 			}
 		});
@@ -73,7 +75,7 @@ public class Game extends JFrame implements Application, AttackListener, DeathLi
 	@Override
     public void run() {
     	while(state != State.EXIT) {
-    	    if(KeyboardManager.getInstance().isPressed('\n')) {
+    	    if(KeyboardManager.getInstance().isPressed(KeyEvent.VK_ESCAPE)) {
     	    	state = State.EXIT;
 			}
     		try {
@@ -85,15 +87,18 @@ public class Game extends JFrame implements Application, AttackListener, DeathLi
             repaint();
             Toolkit.getDefaultToolkit().sync();
 	    }
-    	saveToFile("Backup.json");
+    	saveToFile();
+    	System.exit(0);
     }
 
 	private void update() {
+		lock.lock();
     	entities.removeIf(entity -> !entity.isAlive());
         for(Entity entity : entities) {
         	entity.update();
 		}
         entities.addAll(entityQueue);
+		lock.unlock();
         entityQueue.clear();
 
 		collisionEngine.update();
@@ -112,10 +117,10 @@ public class Game extends JFrame implements Application, AttackListener, DeathLi
 		entityQueue.add(entity);
 	}
 
-	private void saveToFile(String filename) {
+	private void saveToFile() {
 	    try {
 	        JsonObject.Builder builder = JsonObject.build();
-			PrintWriter file = new PrintWriter(filename);
+			PrintWriter file = new PrintWriter("Backup.json");
 			int enemyNumber = 0;
 			int bulletNumber = 0;
 			int greenBushNumber = 0;
@@ -123,6 +128,7 @@ public class Game extends JFrame implements Application, AttackListener, DeathLi
 			int smallTreeNumber = 0;
 			int burnAnimationNumber = 0;
 			int tankExplosionAnimationNumber = 0;
+			lock.lock();
 			for(Entity entity : entities) {
 				if(entity instanceof Player) {
 					builder.addAttribute("Player", entity.toJson());
@@ -142,6 +148,7 @@ public class Game extends JFrame implements Application, AttackListener, DeathLi
 					builder.addAttribute("TankExplosionAnimation" + tankExplosionAnimationNumber++, entity.toJson());
 				}
 			}
+			lock.unlock();
 			file.write(builder.getObject().toString());
 			file.close();
 		} catch(FileNotFoundException e) {
@@ -159,6 +166,7 @@ public class Game extends JFrame implements Application, AttackListener, DeathLi
 
 			if(camera != null) {
 				g.translate((int) camera.getOffset().x, (int) camera.getOffset().y);
+				lock.lock();
 				for (Entity entity : entities) {
 					if (entity.getPosition().x + camera.getOffset().x + entity.getDimensions().x > 0 &&
                         entity.getPosition().y + camera.getOffset().y + entity.getDimensions().y > 0 &&
@@ -166,12 +174,14 @@ public class Game extends JFrame implements Application, AttackListener, DeathLi
                         entity.getPosition().y + camera.getOffset().y < 800)
 						entity.draw(g);
 				}
+				lock.unlock();
 			}
         }
     }
 
+    private Lock lock = new ReentrantLock();
 	private Camera camera;
-	private Vector<Entity> entities = new Vector<>();
+	private ArrayList<Entity> entities = new ArrayList<>();
 	private ArrayList<Entity> entityQueue = new ArrayList<>();
 	private CollisionEngine collisionEngine = new CollisionEngine();
 	private State state;
