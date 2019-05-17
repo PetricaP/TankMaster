@@ -4,6 +4,8 @@ import paoo.core.Entity;
 import paoo.core.json.JsonObject;
 import paoo.core.json.JsonParser;
 import paoo.core.utils.Vector2D;
+import paoo.game.animations.BurnAnimation;
+import paoo.game.animations.TankExplosionAnimation;
 import paoo.game.entities.Enemy;
 import paoo.game.entities.Player;
 import paoo.game.entities.bullets.Bullet;
@@ -31,7 +33,6 @@ public class Level {
         try {
             String fileString = new String(Files.readAllBytes(Paths.get(fileName)));
             JsonObject game = JsonParser.parse(fileString);
-            System.out.println(game);
             JsonObject jsonLevel = JsonParser.parse(fileString);
             for(Map.Entry<String, Object> entry : jsonLevel.getAttributes().entrySet()) {
                 String name = entry.getKey();
@@ -102,6 +103,16 @@ public class Level {
                     level.entities.add(new MediumTree(
                             new Vector2D(position.getFloat("x"), position.getFloat("y")),
                             entityJson.getInt("health")));
+                } else if(name.startsWith("TankExplosionAnimation")) {
+                    JsonObject entityJson = (JsonObject) entry.getValue();
+                    JsonObject position = entityJson.getJsonObject("position");
+                    level.entities.add(new TankExplosionAnimation(
+                            new Vector2D(position.getFloat("x"), position.getFloat("y"))));
+                } else if(name.startsWith("BurnAnimation")) {
+                    JsonObject entityJson = (JsonObject) entry.getValue();
+                    JsonObject position = entityJson.getJsonObject("position");
+                    level.entities.add(new BurnAnimation(
+                            new Vector2D(position.getFloat("x"), position.getFloat("y"))));
                 }
             }
         } catch(IOException e) {

@@ -1,0 +1,18 @@
+{
+  "Player": {
+    "position": {
+      "x": -600.0,
+      "y": -400.0
+    },
+    "direction": 1
+  },
+  "Enemy0": {
+    "position": {
+      "x": -600.0,
+      "y": -400.0
+    },
+    "direction": 0,
+    "type": "ENEMY_BLUE_1",
+    "speed": 2
+  }
+}

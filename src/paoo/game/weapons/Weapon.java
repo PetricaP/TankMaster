@@ -17,7 +17,6 @@ public abstract class Weapon {
 
     public void setPosition(Vector2D position) {
         this.position = position;
-        System.out.println("x: " + position.x + "y: " + position.y);
     }
 
     String getOwner() {

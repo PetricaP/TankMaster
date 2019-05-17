@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyboardManager implements KeyListener {
-    public boolean isPressed(char c) {
+    public boolean isPressed(int c) {
         return keysPressed[c];
     }
 
@@ -18,14 +18,14 @@ public class KeyboardManager implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyChar() < Character.MAX_VALUE) {
-            keysPressed[e.getKeyChar()] = true;
+            keysPressed[e.getKeyCode()] = true;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
 		if(e.getKeyChar() < Character.MAX_VALUE) {
-			keysPressed[e.getKeyChar()] = false;
+			keysPressed[e.getKeyCode()] = false;
 		}
     }
 

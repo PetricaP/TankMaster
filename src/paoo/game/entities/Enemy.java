@@ -1,70 +1,19 @@
 package paoo.game.entities;
 
-import paoo.core.*;
-import paoo.core.collisions.AABBCollider;
-import paoo.core.collisions.Collidable;
-import paoo.core.collisions.Collider;
 import paoo.core.collisions.Collision;
 import paoo.core.json.JsonObject;
 import paoo.core.utils.Vector2D;
-import paoo.game.*;
+import paoo.game.Direction;
+import paoo.game.Tank;
 import paoo.game.animations.TankExplosionAnimation;
 import paoo.game.entities.bullets.Bullet;
 
-import java.awt.*;
-import java.util.ArrayList;
-
-public class Enemy implements Entity, Collidable {
+public class Enemy extends TankEntity {
     public Enemy(Tank.Type type, Vector2D position, int speed) {
-        this.position = position;
-        this.speed = speed;
-        this.type = type;
-        dimensions = new Vector2D(50, 50);
-
-        tank = TankFactory.create("Enemy", type);
-        if(tank != null) {
-            tank.setPosition(position);
-        } else {
-            System.err.println("Couldn't load image for enemy");
-            System.exit(-1);
-        }
-
-        collider = new AABBCollider(new Vector2D(position), dimensions);
-        alive = true;
-
-        attackListeners = new ArrayList<>();
-        deathListeners = new ArrayList<>();
+        super(type, position, new Vector2D(50, 50),
+                new Vector2D(0, 0), Direction.DOWN, "Enemy", 3);
         health = 5;
-    }
-
-    @Override
-    public Vector2D getPosition() {
-        return position;
-    }
-
-    @Override
-    public Vector2D getDimensions() {
-        return dimensions;
-    }
-
-    @Override
-    public boolean isAlive() {
-        return alive;
-    }
-
-    @Override
-    public void draw(Graphics graphics) {
-        tank.draw(graphics);
-    }
-
-    @Override
-    public void attachDeathListener(DeathListener listener) {
-        deathListeners.add(listener);
-    }
-
-    @Override
-    public String getTag() {
-        return "Enemy";
+        this.speed = speed;
     }
 
     @Override
@@ -73,10 +22,8 @@ public class Enemy implements Entity, Collidable {
         if(tag.contains("Player") && tag.contains("Bullet")) {
             health -= ((Bullet)collision.getOtherObject()).getDamage();
             if(health <= 0) {
-                alive = false;
-                for(DeathListener listener : deathListeners) {
-                    listener.onDeath(new TankExplosionAnimation(position.add(dimensions.div(2))));
-                }
+                setAlive(false);
+                getDeathListener().onDeath(new TankExplosionAnimation(getPosition().add(getDimensions().div(2))));
             }
         }
 
@@ -86,64 +33,48 @@ public class Enemy implements Entity, Collidable {
         }
     }
 
-    @Override
-    public void setPosition(Vector2D position) {
-        this.position = position;
-    }
-
-    @Override
-    public Collider getCollider() {
-        return collider;
-    }
-
     private long fireLastTime = 0;
     private long changeDirectionLastTime = 0;
-
     @Override
     public void update() {
-        collider.setPosition(new Vector2D(position));
         if(moving) {
-            position.add(velocity);
-            tank.setPosition(position);
+            super.update();
         }
 
         long currentTime = System.currentTimeMillis();
 
         if(currentTime - changeDirectionLastTime > 1000) {
             chooseRandomMovingDirection();
-            tank.setLookingDirection(movingDirection);
+            tank.setLookingDirection(getLookingDirection());
             changeDirectionLastTime = currentTime;
         }
 
         if(currentTime - fireLastTime > 250) {
             fireLastTime = currentTime;
             if(Math.random() > 0.5) {
-                for(Bullet bullet : tank.shoot()) {
-                    for (AttackListener listener : attackListeners) {
-                        listener.onShoot(bullet);
-                    }
-                }
+                shoot();
             }
         }
     }
 
-    public void addAttackListener(AttackListener listener) {
-        attackListeners.add(listener);
+    @Override
+    public String getTag() {
+        return "Enemy";
     }
 
     private void chooseRandomMovingDirection() {
         double random = Math.random();
         if(random < 0.25) {
-            movingDirection = Direction.UP;
+            setLookingDirection(Direction.UP);
             velocity = new Vector2D(0, -speed);
         } else if(random < 0.5) {
-            movingDirection = Direction.DOWN;
+            setLookingDirection(Direction.DOWN);
             velocity = new Vector2D(0, speed);
         } else if(random < 0.75) {
-            movingDirection = Direction.RIGHT;
+            setLookingDirection(Direction.RIGHT);
             velocity = new Vector2D(speed, 0);
         } else {
-            movingDirection = Direction.LEFT;
+            setLookingDirection(Direction.LEFT);
             velocity = new Vector2D(-speed, 0);
         }
         double random2 = Math.random();
@@ -151,25 +82,16 @@ public class Enemy implements Entity, Collidable {
         moving = !(random2 < 0.15);
     }
 
-    private int health;
-    private boolean moving;
-    private int movingDirection;
-    private int speed;
-    private Tank.Type type;
-    private Collider collider;
-    private Vector2D position;
-    private Vector2D dimensions;
-    private Vector2D velocity;
-    private boolean alive;
-    private Tank tank;
-    private ArrayList<AttackListener> attackListeners;
-    private ArrayList<DeathListener> deathListeners;
-
     @Override
     public JsonObject toJson() {
-        return JsonObject.build().addAttribute("position", position.toJson())
+        return JsonObject.build()
+                .addAttribute("position", getPosition().toJson())
                 .addAttribute("speed", speed)
-                .addAttribute("direction", movingDirection)
-                .addAttribute("type", type.toString()).getObject();
+                .addAttribute("direction", getLookingDirection())
+                .addAttribute("type", getType().toString()).getObject();
     }
+
+    private int speed;
+    private boolean moving;
+    private int health;
 }

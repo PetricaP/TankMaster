@@ -134,9 +134,6 @@ public class Tank {
 
     public void setPosition(Vector2D position) {
         this.position = position;
-        System.out.println("Setting tank position to " + position.x + ", " + position.y);
-        System.out.println("Setting weapon position to " + (position.x + dimensions.x / 2)
-                                                  + ", " + (position.y + dimensions.y / 2));
         weapon.setPosition(new Vector2D(position).add(new Vector2D(dimensions).div(2)));
     }
 

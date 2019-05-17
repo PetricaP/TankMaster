@@ -4,6 +4,8 @@ import paoo.core.*;
 import paoo.core.collisions.Collidable;
 import paoo.core.collisions.CollisionEngine;
 import paoo.core.json.JsonObject;
+import paoo.game.animations.BurnAnimation;
+import paoo.game.animations.TankExplosionAnimation;
 import paoo.game.entities.bullets.Bullet;
 import paoo.game.entities.Enemy;
 import paoo.game.entities.Player;
@@ -13,10 +15,12 @@ import paoo.game.entities.staticentities.SmallTree;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Vector;
+import java.awt.event.WindowAdapter;
 
 public class Game extends JFrame implements Application, AttackListener, DeathListener {
 	enum State {
@@ -34,8 +38,17 @@ public class Game extends JFrame implements Application, AttackListener, DeathLi
     	setVisible(true);
     	setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-		loadLevel("Backup.json");
+		loadLevel("Level1.json");
 		state = State.PLAY;
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+			    if(state != State.EXIT) {
+			    	saveToFile("Backup.json");
+				}
+			}
+		});
 	}
 
 	private void loadLevel(String filePath) {
@@ -108,6 +121,8 @@ public class Game extends JFrame implements Application, AttackListener, DeathLi
 			int greenBushNumber = 0;
 			int mediumTreeNumber = 0;
 			int smallTreeNumber = 0;
+			int burnAnimationNumber = 0;
+			int tankExplosionAnimationNumber = 0;
 			for(Entity entity : entities) {
 				if(entity instanceof Player) {
 					builder.addAttribute("Player", entity.toJson());
@@ -121,11 +136,14 @@ public class Game extends JFrame implements Application, AttackListener, DeathLi
 					builder.addAttribute("MediumTree" + mediumTreeNumber++, entity.toJson());
                 } else if(entity instanceof SmallTree) {
                     builder.addAttribute("SmallTree" + smallTreeNumber++, entity.toJson());
-                }
+                } else if(entity instanceof BurnAnimation) {
+					builder.addAttribute("BurnAnimation" + burnAnimationNumber++, entity.toJson());
+				} else if(entity instanceof TankExplosionAnimation) {
+					builder.addAttribute("TankExplosionAnimation" + tankExplosionAnimationNumber++, entity.toJson());
+				}
 			}
 			file.write(builder.getObject().toString());
 			file.close();
-			System.out.println(builder.getObject());
 		} catch(FileNotFoundException e) {
 	    	System.err.println("Couldn't save game");
 	    	e.printStackTrace();

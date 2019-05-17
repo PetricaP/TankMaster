@@ -11,7 +11,6 @@ public class JsonObject {
 
     public String toString() {
         StringBuilder repr = new StringBuilder();
-        //repr.append("    ".repeat(Math.max(0, indentLevel)));
         repr.append("{\n");
 
         for(Map.Entry<String, Object> entry : attributes.entrySet()) {

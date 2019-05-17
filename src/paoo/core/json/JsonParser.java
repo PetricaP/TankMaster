@@ -21,9 +21,15 @@ public class JsonParser {
         TokenType currentType;
         while(i < s.length()) {
             currentType = TokenType.NONE;
-            while(Character.isWhitespace(s.charAt(i))) {
+            boolean exit = false;
+            while(!exit && Character.isWhitespace(s.charAt(i))) {
                 ++i;
+                if(i >= s.length()) {
+                    exit = true;
+                }
             }
+            if(exit) break;
+
             if(s.charAt(i) == '{') {
                 if(builder != null) {
                     objectStack.push(builder);

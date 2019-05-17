@@ -6,7 +6,6 @@ import paoo.core.collisions.Collider;
 import paoo.core.collisions.Collision;
 import paoo.core.utils.Vector2D;
 import paoo.game.DeathListener;
-import paoo.game.animations.TankExplosionAnimation;
 import paoo.game.entities.bullets.Bullet;
 
 import java.awt.*;
@@ -85,10 +84,6 @@ abstract public class StaticDestroyableEntity implements Collidable {
 
     protected void takeDamage(int damage) {
         health -= damage;
-    }
-
-    protected void setHealth(int health) {
-        this.health = health;
     }
 
     int getHealth() {
