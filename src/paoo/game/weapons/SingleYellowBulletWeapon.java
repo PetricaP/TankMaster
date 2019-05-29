@@ -8,8 +8,8 @@ import paoo.game.entities.bullets.YellowBullet;
 import java.util.ArrayList;
 
 public class SingleYellowBulletWeapon extends Weapon {
-    public SingleYellowBulletWeapon(String owner) {
-        super(owner);
+    public SingleYellowBulletWeapon(String owner, int bulletSpeed) {
+        super(owner, bulletSpeed);
 
         if(offsets == null) {
             offsets = new Vector2D[4];

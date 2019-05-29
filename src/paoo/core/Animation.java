@@ -8,12 +8,13 @@ import java.util.ArrayList;
 
 public class Animation {
     public Animation(BufferedImage spriteSheet, long frameTime,
-                     ArrayList<Pair<Vector2D, Vector2D>> animationRects, int firstRepeating,
+                     ArrayList<Pair<Vector2D, Vector2D>> animationRects,
+                     int firstFrame, int firstRepeating,
                      AnimationListener listener) {
         this.spriteSheet = spriteSheet;
         this.frameTime = frameTime;
         rects = animationRects;
-        currentFrame = 0;
+        currentFrame = firstFrame;
 
         imageCache = new BufferedImage[animationRects.size()];
 
@@ -46,6 +47,10 @@ public class Animation {
             lastTime = currentTime;
         }
         return imageCache[currentFrame];
+    }
+
+    public int getCurrentFrame() {
+        return currentFrame;
     }
 
     private AnimationListener listener;

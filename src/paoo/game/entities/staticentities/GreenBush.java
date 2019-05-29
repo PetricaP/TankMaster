@@ -47,7 +47,7 @@ public class GreenBush extends StaticDestroyableEntity {
         setImage(bushImages[Math.max((getHealth() - 2), 0) / 3]);
         if(getHealth() <= 0) {
             getListener().onDeath(new BurnAnimation(
-                    new Vector2D(getPosition()).add(new Vector2D(getDimensions()).div(2))));
+                    new Vector2D(getPosition()).add(new Vector2D(getDimensions()).div(2)), 0));
         }
     }
 

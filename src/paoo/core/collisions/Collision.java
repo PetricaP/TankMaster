@@ -5,9 +5,7 @@ import paoo.core.utils.Vector2D;
 public class Collision {
     private Collidable otherObject;
 
-    Collision() {
-
-    }
+    Collision() {}
 
     Collision(Collision other) {
         this.otherObject = other.otherObject;
@@ -59,17 +57,17 @@ public class Collision {
         y2p = y2 + collider2.getDimensions().y;
 
         Vector2D delta;
-        if(d1 > 0 && d2 < 0) {
+        if(d1 >= 0 && d2 <= 0) {
             // Right quadrant (1)
             delta = new Vector2D(x2p - x1, 0);
-        } else if(d1 > 0 && d2 > 0) {
+        } else if(d1 >= 0 && d2 >= 0) {
             // Top quadrant (2)
             delta = new Vector2D(0, y2 - y1p);
-        } else if(d1 < 0 && d2 > 0) {
+        } else if(d1 <= 0 && d2 >= 0) {
             // Left quadrant (3)
             delta = new Vector2D(x2 - x1p, 0);
         } else {
-            // Bottom quadrant (4) not working
+            // Bottom quadrant (4)
             delta = new Vector2D(0, y2p - y1);
         }
         entity1.setPosition(new Vector2D(entity1.getPosition()).add(delta));

@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class BulletExplosionAnimation implements Entity {
-    public BulletExplosionAnimation(Vector2D position) {
+    public BulletExplosionAnimation(Vector2D position, int firstFrame) {
         this.position = position;
         this.dimensions = new Vector2D(30, 30);
         alive = true;
@@ -23,10 +23,7 @@ public class BulletExplosionAnimation implements Entity {
         }
         try {
             animation = new Animation(ImageLoader.getInstance().loadImage("res/images/bullet_explosion.png"),
-                    20, animationRects, 0, () -> {
-                                                                        System.out.println("Animation finished");
-                                                                        alive = false;
-                                                                    });
+                    20, animationRects, firstFrame, 0, () -> alive = false);
         } catch(IOException e) {
             System.err.println("Couldn't load image source for bullet hit animation");
             System.exit(-1);
@@ -75,6 +72,9 @@ public class BulletExplosionAnimation implements Entity {
 
     @Override
     public JsonObject toJson() {
-        return JsonObject.build().addAttribute("position", position.toJson()).getObject();
+        return JsonObject.build()
+                .addAttribute("position", position.toJson())
+                .addAttribute("frame", animation.getCurrentFrame())
+                .getObject();
     }
 }

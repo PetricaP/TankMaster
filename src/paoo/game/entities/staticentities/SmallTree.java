@@ -53,7 +53,7 @@ public class SmallTree extends StaticDestroyableEntity {
         setImage(smallTreeImages[(getHealth() - 3) / 6]);
         if(getHealth() <= 0) {
             getListener().onDeath(new BurnAnimation(
-                    new Vector2D(getPosition()).add(new Vector2D(getDimensions()).div(2))));
+                    new Vector2D(getPosition()).add(new Vector2D(getDimensions()).div(2)), 0));
         }
     }
 

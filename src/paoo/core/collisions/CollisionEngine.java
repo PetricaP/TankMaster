@@ -33,6 +33,10 @@ public class CollisionEngine {
         }
     }
 
+    public void reset() {
+        collidables.clear();
+    }
+
     public void addObject(Collidable collidable) {
         collidables.add(collidable);
     }

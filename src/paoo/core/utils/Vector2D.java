@@ -46,8 +46,15 @@ public class Vector2D implements JsonConvertible {
         return this;
     }
 
+    public float squareLength() {
+        return x*x + y*y;
+    }
+
     @Override
     public JsonObject toJson() {
-        return JsonObject.build().addAttribute("x", x).addAttribute("y", y).getObject();
+        return JsonObject.build()
+                .addAttribute("x", x)
+                .addAttribute("y", y)
+                .getObject();
     }
 }

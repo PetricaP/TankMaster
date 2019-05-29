@@ -1,6 +1,5 @@
 package paoo.game.entities.bullets;
 
-import paoo.core.*;
 import paoo.core.collisions.AABBCollider;
 import paoo.core.collisions.Collidable;
 import paoo.core.collisions.Collider;
@@ -11,10 +10,11 @@ import paoo.game.animations.BulletExplosionAnimation;
 import paoo.game.DeathListener;
 import paoo.game.Direction;
 
-public abstract class Bullet implements Entity, Collidable {
+public abstract class Bullet implements Collidable {
     public Bullet(Vector2D position, Vector2D dimensions, int direction, int speed, String tag) {
         this.position = position;
         this.direction = direction;
+        this.speed = speed;
         switch(direction) {
             case Direction.UP:
                 this.velocity = new Vector2D(0, -speed);
@@ -56,7 +56,7 @@ public abstract class Bullet implements Entity, Collidable {
         position.add(velocity);
         collider.setPosition(new Vector2D(position));
         long timeCurrent = System.currentTimeMillis();
-        if(timeCurrent - timeCreated > 2000) {
+        if(timeCurrent - timeCreated > 5000) {
             alive = false;
         }
     }
@@ -72,7 +72,7 @@ public abstract class Bullet implements Entity, Collidable {
             alive = false;
             if(listener != null) {
                 listener.onDeath(new BulletExplosionAnimation(
-                        new Vector2D(position).add(new Vector2D(dimensions).div(2))));
+                        new Vector2D(position).add(new Vector2D(dimensions).div(2).add(new Vector2D(-5, -5))), 0));
             }
         }
     }
@@ -104,26 +104,28 @@ public abstract class Bullet implements Entity, Collidable {
         return JsonObject.build()
                 .addAttribute("position", getPosition().toJson())
                 .addAttribute("direction", getDirection())
-                .addAttribute("tag", getTag()).getObject();
+                .addAttribute("tag", getTag())
+                .addAttribute("speed", speed).getObject();
     }
 
     public int getDirection() {
         return direction;
     }
 
-    public static Bullet create(Vector2D position, int direction, String tag) {
+    public static Bullet create(Vector2D position, int direction, String tag, int bulletSpeed) {
         Bullet bullet = null;
         if(tag.contains("Simple")) {
-            bullet = new SimpleBullet(position, direction, tag);
+            bullet = new SimpleBullet(position, direction, tag, bulletSpeed);
         }
         if(tag.contains("Fire")) {
-            bullet = new FireBall(position, direction, tag);
+            bullet = new FireBall(position, direction, tag, bulletSpeed);
         }
         assert(bullet != null);
         bullet.tag = tag;
         return bullet;
     }
 
+    private int speed;
     private int direction;
     private DeathListener listener = null;
     private boolean alive;

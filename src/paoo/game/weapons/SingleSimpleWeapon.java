@@ -8,8 +8,8 @@ import paoo.game.entities.bullets.SimpleBullet;
 import java.util.ArrayList;
 
 public class SingleSimpleWeapon extends Weapon {
-    public SingleSimpleWeapon(String owner) {
-    super(owner);
+    public SingleSimpleWeapon(String owner, int bulletSpeed) {
+    super(owner, bulletSpeed);
 
         ChangeOffset();
     }
@@ -25,7 +25,7 @@ public class SingleSimpleWeapon extends Weapon {
     public ArrayList<Bullet> fire() {
         ArrayList<Bullet> bullets = new ArrayList<>();
         bullets.add(new SimpleBullet(new Vector2D(getPosition()).add(offset), getLookingDirection(),
-                getOwner() + "SimpleBullet"));
+                getOwner() + "SimpleBullet", getBulletSpeed()));
         return bullets;
     }
 

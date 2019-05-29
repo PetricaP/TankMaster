@@ -10,8 +10,8 @@ import java.util.ArrayList;
 public class DoubleSimpleWeapon extends Weapon {
     private static final int bulletOffset = 5;
 
-    public DoubleSimpleWeapon(String owner) {
-        super(owner);
+    public DoubleSimpleWeapon(String owner, int bulletSpeed) {
+        super(owner, bulletSpeed);
 
         if(offsets1 == null) {
             offsets1 = new Vector2D[4];
@@ -41,9 +41,9 @@ public class DoubleSimpleWeapon extends Weapon {
     public ArrayList<Bullet> fire() {
         ArrayList<Bullet> bullets = new ArrayList<>();
         bullets.add(new SimpleBullet(new Vector2D(getPosition()).add(offset1),
-                    getLookingDirection(), getOwner() + "SimpleBullet"));
+                    getLookingDirection(), getOwner() + "SimpleBullet", getBulletSpeed()));
         bullets.add(new SimpleBullet(new Vector2D(getPosition()).add(offset2),
-                getLookingDirection(), getOwner() + "SimpleBullet"));
+                getLookingDirection(), getOwner() + "SimpleBullet", getBulletSpeed()));
         return bullets;
     }
 

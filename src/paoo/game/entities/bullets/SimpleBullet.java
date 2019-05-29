@@ -5,8 +5,8 @@ import paoo.core.utils.Vector2D;
 import java.awt.*;
 
 public class SimpleBullet extends Bullet {
-    public SimpleBullet(Vector2D position, int direction, String tag) {
-        super(position, new Vector2D(6, 6), direction, 3, tag);
+    public SimpleBullet(Vector2D position, int direction, String tag, int bulletSpeed) {
+        super(position, new Vector2D(6, 6), direction, bulletSpeed, tag);
     }
 
     @Override

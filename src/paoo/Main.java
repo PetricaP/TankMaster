@@ -5,7 +5,8 @@ import paoo.game.Game;
 
 public class Main {
     public static void main(String[] args) {
-          Application game = new Game();
-          game.run();
+         Application game = new Game();
+         game.run();
+         System.exit(0);
     }
 }

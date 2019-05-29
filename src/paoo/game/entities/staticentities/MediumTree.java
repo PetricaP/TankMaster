@@ -53,7 +53,7 @@ public class MediumTree extends StaticDestroyableEntity {
         setImage(mediumTreeImages[(getHealth() - 1) / 6]);
         if(getHealth() <= 0) {
             getListener().onDeath(new BurnAnimation(
-                    new Vector2D(getPosition()).add(new Vector2D(getDimensions()).div(2))));
+                    new Vector2D(getPosition()).add(new Vector2D(getDimensions()).div(2)), 0));
         }
     }
 

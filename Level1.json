@@ -1,18 +1,346 @@
 {
+  "BackGround": {
+    "type": 0,
+    "position": {
+      "x": 300.0,
+      "y": 200.0
+    },
+    "dimensions": {
+      "x": 500.0,
+      "y": 1000.0
+    },
+    "tileSize": 25
+  },
+  "TiledWall": {
+    "type": 1,
+    "position": {
+      "x": 300.0,
+      "y": 200.0
+    },
+    "dimensions": {
+      "x": 50.0,
+      "y": 1000.0
+    },
+    "tileSize": 25
+  },
+  "TiledWall0": {
+    "type": 1,
+    "position": {
+      "x": 800.0,
+      "y": 200.0
+    },
+    "dimensions": {
+      "x": 50.0,
+      "y": 1000.0
+    },
+    "tileSize": 25
+  },
+  "TiledWall1": {
+    "type": 1,
+    "position": {
+      "x": 300.0,
+      "y": 1200.0
+    },
+    "dimensions": {
+      "x": 550.0,
+      "y": 50.0
+    },
+    "tileSize": 25
+  },
+  "TiledWall2": {
+    "type": 1,
+    "position": {
+      "x": 300.0,
+      "y": 200.0
+    },
+    "dimensions": {
+      "x": 550.0,
+      "y": 50.0
+    },
+    "tileSize": 25
+  },
   "Player": {
     "position": {
-      "x": -600.0,
-      "y": -400.0
+      "x": 400.0,
+      "y": 1000.0
     },
-    "direction": 1
+    "health": 10,
+    "direction": 1,
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
   },
   "Enemy0": {
     "position": {
-      "x": -600.0,
-      "y": -400.0
+      "x": 400.0,
+      "y": 400.0
     },
     "direction": 0,
-    "type": "ENEMY_BLUE_1",
-    "speed": 2
+    "health": 10,
+    "type": "ENEMY_RED_1",
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "Enemy1": {
+    "position": {
+      "x": 450.0,
+      "y": 400.0
+    },
+    "direction": 0,
+    "health": 10,
+    "type": "ENEMY_BLUE_2",
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "Enemy2": {
+    "position": {
+      "x": 500.0,
+      "y": 400.0
+    },
+    "direction": 0,
+    "health": 10,
+    "type": "ENEMY_BLUE_2",
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "Enemy3": {
+    "position": {
+      "x": 550.0,
+      "y": 400.0
+    },
+    "direction": 0,
+    "health": 10,
+    "type": "ENEMY_BLUE_2",
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "Enemy4": {
+    "position": {
+      "x": 600.0,
+      "y": 400.0
+    },
+    "direction": 0,
+    "health": 10,
+    "type": "ENEMY_BLUE_2",
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "Enemy5": {
+    "position": {
+      "x": 650.0,
+      "y": 400.0
+    },
+    "direction": 0,
+    "health": 10,
+    "type": "ENEMY_BLUE_2",
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "Enemy6": {
+    "position": {
+      "x": 700.0,
+      "y": 400.0
+    },
+    "direction": 0,
+    "health": 10,
+    "type": "ENEMY_BLUE_2",
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "GreenBush": {
+    "position": {
+      "x": 450.0,
+      "y": 500.0
+    },
+    "health": 10
+  },
+  "GreenBush0": {
+    "position": {
+      "x": 500.0,
+      "y": 500.0
+    },
+    "health": 10
+  },
+  "GreenBush1": {
+    "position": {
+      "x": 550.0,
+      "y": 500.0
+    },
+    "health": 10
+  },
+  "GreenBush2": {
+    "position": {
+      "x": 600.0,
+      "y": 500.0
+    },
+    "health": 10
+  },
+  "GreenBush3": {
+    "position": {
+      "x": 650.0,
+      "y": 500.0
+    },
+    "health": 10
+  },
+  "GreenBush4": {
+    "position": {
+      "x": 700.0,
+      "y": 500.0
+    },
+    "health": 10
+  },
+  "GreenBush5": {
+    "position": {
+      "x": 550.0,
+      "y": 550.0
+    },
+    "health": 10
+  },
+  "GreenBush6": {
+    "position": {
+      "x": 550.0,
+      "y": 600.0
+    },
+    "health": 10
+  },
+  "GreenBush7": {
+    "position": {
+      "x": 550.0,
+      "y": 650.0
+    },
+    "health": 10
+  },
+  "GreenBush25": {
+    "position": {
+      "x": 450.0,
+      "y": 700.0
+    },
+    "health": 10
+  },
+  "GreenBush26": {
+    "position": {
+      "x": 500.0,
+      "y": 700.0
+    },
+    "health": 10
+  },
+  "GreenBush8": {
+    "position": {
+      "x": 550.0,
+      "y": 700.0
+    },
+    "health": 10
+  },
+  "GreenBush9": {
+    "position": {
+      "x": 600.0,
+      "y": 700.0
+    },
+    "health": 10
+  },
+  "GreenBush10": {
+    "position": {
+      "x": 650.0,
+      "y": 700.0
+    },
+    "health": 10
+  },
+  "GreenBush11": {
+    "position": {
+      "x": 700.0,
+      "y": 700.0
+    },
+    "health": 10
+  },
+  "GreenBush12": {
+    "position": {
+      "x": 750.0,
+      "y": 700.0
+    },
+    "health": 10
+  },
+  "GreenBush13": {
+    "position": {
+      "x": 700.0,
+      "y": 750.0
+    },
+    "health": 10
+  },
+  "GreenBush14": {
+    "position": {
+      "x": 700.0,
+      "y": 800.0
+    },
+    "health": 10
+  },
+  "GreenBush15": {
+    "position": {
+      "x": 700.0,
+      "y": 850.0
+    },
+    "health": 10
+  },
+  "GreenBush16": {
+    "position": {
+      "x": 700.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "GreenBush17": {
+    "position": {
+      "x": 450.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "GreenBush18": {
+    "position": {
+      "x": 500.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "GreenBush19": {
+    "position": {
+      "x": 550.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "GreenBush20": {
+    "position": {
+      "x": 600.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "GreenBush21": {
+    "position": {
+      "x": 650.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "GreenBush22": {
+    "position": {
+      "x": 700.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "GreenBush23": {
+    "position": {
+      "x": 750.0,
+      "y": 900.0
+    },
+    "health": 10
   }
 }

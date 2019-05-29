@@ -1,4 +1,4 @@
-package paoo.game.entities;
+package paoo.game.entities.tankentities;
 
 import paoo.core.collisions.Collision;
 import paoo.core.json.JsonObject;
@@ -9,10 +9,10 @@ import paoo.game.animations.TankExplosionAnimation;
 import paoo.game.entities.bullets.Bullet;
 
 public class Enemy extends TankEntity {
-    public Enemy(Tank.Type type, Vector2D position, int speed) {
+    public Enemy(Tank.Type type, Vector2D position, int direction, int speed,
+                 int fireRate, int bulletSpeed, int health) {
         super(type, position, new Vector2D(50, 50),
-                new Vector2D(0, 0), Direction.DOWN, "Enemy", 3);
-        health = 5;
+                new Vector2D(0, 0), direction, "Enemy", fireRate, bulletSpeed, health);
         this.speed = speed;
     }
 
@@ -20,15 +20,14 @@ public class Enemy extends TankEntity {
     public void onCollisionEnter(Collision collision) {
         String tag = collision.getOtherObject().getTag();
         if(tag.contains("Player") && tag.contains("Bullet")) {
-            health -= ((Bullet)collision.getOtherObject()).getDamage();
-            if(health <= 0) {
+            setHealth(getHealth() - ((Bullet)collision.getOtherObject()).getDamage());
+            if(getHealth() <= 0) {
                 setAlive(false);
-                getDeathListener().onDeath(new TankExplosionAnimation(getPosition().add(getDimensions().div(2))));
+                getDeathListener().onDeath(new TankExplosionAnimation(getPosition().add(getDimensions().div(2)), 0));
             }
         }
 
-        if(tag.equals("Enemy") || tag.equals("Player")
-                || tag.equals("Wall") || tag.contains("Static")) {
+        if(tag.equals("Enemy") || tag.equals("Wall") || tag.contains("Static") || tag.equals("Player")) {
             Collision.resolveCollision(this, collision.getOtherObject());
             velocity = new Vector2D(0, 0);
         }
@@ -85,14 +84,9 @@ public class Enemy extends TankEntity {
 
     @Override
     public JsonObject toJson() {
-        return JsonObject.build()
-                .addAttribute("position", getPosition().toJson())
-                .addAttribute("speed", speed)
-                .addAttribute("direction", getLookingDirection())
-                .addAttribute("type", getType().toString()).getObject();
+        return super.toJson().addAttribute("speed", speed);
     }
 
     private int speed;
     private boolean moving;
-    private int health;
 }

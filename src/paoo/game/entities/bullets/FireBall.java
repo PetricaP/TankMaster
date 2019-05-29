@@ -16,8 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FireBall extends Bullet {
-    public FireBall(Vector2D position, int direction, String tag) {
-        super(position, new Vector2D(20, 7), direction, 3, tag);
+    public FireBall(Vector2D position, int direction, String tag, int speed) {
+        super(position, new Vector2D(20, 7), direction, speed, tag);
 
         this.direction = direction;
 
@@ -60,7 +60,7 @@ public class FireBall extends Bullet {
             animationRects.add(new Pair<>(new Vector2D(startX, 0), new Vector2D(offsetX, 18)));
         }
 
-        animation = new Animation(spriteSheet, FRAME_TIME, animationRects, 5, null);
+        animation = new Animation(spriteSheet, FRAME_TIME, animationRects,0, 5, null);
 
         imageCache = new HashMap<>();
 

@@ -44,6 +44,14 @@ public class JsonObject {
         }
     }
 
+    public JsonObject addAttribute(String key, Object value) {
+        attributes.put(key, value);
+        if(value instanceof JsonObject) {
+            ((JsonObject)value).setIndentLevel(indentLevel + 1);
+        }
+        return this;
+    }
+
     public LinkedHashMap<String, Object> getAttributes() {
         return attributes;
     }

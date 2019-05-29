@@ -8,8 +8,8 @@ import paoo.game.entities.bullets.FireBall;
 import java.util.ArrayList;
 
 public class SingleFireWeapon extends Weapon {
-    public SingleFireWeapon(String owner) {
-        super(owner);
+    public SingleFireWeapon(String owner, int bulletSpeed) {
+        super(owner, bulletSpeed);
 
         if(offsets == null) {
             offsets = new Vector2D[4];
@@ -33,7 +33,7 @@ public class SingleFireWeapon extends Weapon {
     public ArrayList<Bullet> fire() {
         ArrayList<Bullet> bullets = new ArrayList<>();
         bullets.add(new FireBall(new Vector2D(getPosition()).add(offset), getLookingDirection(),
-                getOwner() + "FireBullet"));
+                getOwner() + "FireBullet", 3));
         return bullets;
     }
 

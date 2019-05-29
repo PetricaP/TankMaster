@@ -17,16 +17,12 @@ public class KeyboardManager implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(e.getKeyChar() < Character.MAX_VALUE) {
-            keysPressed[e.getKeyCode()] = true;
-        }
+        keysPressed[e.getKeyCode()] = true;
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-		if(e.getKeyChar() < Character.MAX_VALUE) {
-			keysPressed[e.getKeyCode()] = false;
-		}
+        keysPressed[e.getKeyCode()] = false;
     }
 
     @Override
@@ -36,6 +32,6 @@ public class KeyboardManager implements KeyListener {
 
     private KeyboardManager() {}
 
-    private boolean[] keysPressed = new boolean[Character.MAX_VALUE];
+    private boolean[] keysPressed = new boolean[2000];
     private static KeyboardManager instance = null;
 }

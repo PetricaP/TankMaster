@@ -1,8 +1,9 @@
-package paoo.game.entities;
+package paoo.game.entities.tankentities;
 
 import paoo.core.collisions.AABBCollider;
 import paoo.core.collisions.Collidable;
 import paoo.core.collisions.Collider;
+import paoo.core.json.JsonObject;
 import paoo.core.utils.Vector2D;
 import paoo.game.*;
 import paoo.game.entities.bullets.Bullet;
@@ -13,15 +14,19 @@ import java.util.ArrayList;
 public abstract class TankEntity implements Collidable {
     TankEntity(Tank.Type type, Vector2D position, Vector2D dimensions,
                Vector2D velocity, int lookingDirection, String owner,
-               int fireRate) {
+               int fireRate, int bulletSpeed, int initialHealth) {
         this.position = position;
         this.velocity = velocity;
         this.fireRate = fireRate;
         this.dimensions = dimensions;
         this.type = type;
+        this.bulletSpeed = bulletSpeed;
+
+        healthBar = new HealthBar(initialHealth, new Vector2D(position).sub(new Vector2D(0, healthBarYOffset)));
+        health = initialHealth;
         alive = true;
 
-        tank = TankFactory.create(owner, type);
+        tank = TankFactory.create(owner, type, bulletSpeed);
         if(tank == null) {
             System.err.println("Couldn't create tank for " + owner);
             System.exit(-1);
@@ -53,12 +58,14 @@ public abstract class TankEntity implements Collidable {
 
         collider.setPosition(position);
         tank.setPosition(position);
+        this.healthBar.setPosition(new Vector2D(position).sub(new Vector2D(0, healthBarYOffset)));
     }
 
     @Override
     public void setPosition(Vector2D position) {
         this.position = position;
         collider.setPosition(position);
+        this.healthBar.setPosition(new Vector2D(position).sub(new Vector2D(0, healthBarYOffset)));
     }
 
     @Override
@@ -68,6 +75,7 @@ public abstract class TankEntity implements Collidable {
 
     @Override
     public void draw(Graphics graphics) {
+        healthBar.draw(graphics);
         tank.draw(graphics);
     }
 
@@ -128,9 +136,33 @@ public abstract class TankEntity implements Collidable {
         return type;
     }
 
-    DeathListener listener;
+    @Override
+    public JsonObject toJson() {
+        return JsonObject.build()
+                .addAttribute("position", position.toJson())
+                .addAttribute("direction", lookingDirection)
+                .addAttribute("type", type.toString())
+                .addAttribute("fireRate", fireRate)
+                .addAttribute("health", health)
+                .addAttribute("bulletSpeed", bulletSpeed).getObject();
+    }
+
+    void setHealth(int health) {
+        this.health = health;
+        this.healthBar.setHealth(health);
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
     Tank tank;
 
+    private final int healthBarYOffset = 10;
+    private DeathListener listener;
+    private int health;
+    private HealthBar healthBar;
+    private int bulletSpeed;
     private Tank.Type type;
     private AABBCollider collider;
     private int lookingDirection;

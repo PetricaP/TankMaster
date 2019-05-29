@@ -1,0 +1,371 @@
+{
+  "BackGround": {
+    "type": 0,
+    "position": {
+      "x": 300.0,
+      "y": 200.0
+    },
+    "dimensions": {
+      "x": 1000.0,
+      "y": 1000.0
+    },
+    "tileSize": 25
+  },
+  "TiledWall": {
+    "type": 1,
+    "position": {
+      "x": 300.0,
+      "y": 200.0
+    },
+    "dimensions": {
+      "x": 50.0,
+      "y": 1000.0
+    },
+    "tileSize": 25
+  },
+  "TiledWall0": {
+    "type": 1,
+    "position": {
+      "x": 1300.0,
+      "y": 200.0
+    },
+    "dimensions": {
+      "x": 50.0,
+      "y": 1000.0
+    },
+    "tileSize": 25
+  },
+  "TiledWall1": {
+    "type": 1,
+    "position": {
+      "x": 300.0,
+      "y": 1200.0
+    },
+    "dimensions": {
+      "x": 1050.0,
+      "y": 50.0
+    },
+    "tileSize": 25
+  },
+  "TiledWall2": {
+    "type": 1,
+    "position": {
+      "x": 300.0,
+      "y": 200.0
+    },
+    "dimensions": {
+      "x": 1050.0,
+      "y": 50.0
+    },
+    "tileSize": 25
+  },
+  "TiledWall3": {
+    "type": 1,
+    "position": {
+      "x": 500.0,
+      "y": 400.0
+    },
+    "dimensions": {
+      "x": 50.0,
+      "y": 650.0
+    },
+    "tileSize": 25
+  },
+  "TiledWall4": {
+    "type": 1,
+    "position": {
+      "x": 700.0,
+      "y": 400.0
+    },
+    "dimensions": {
+      "x": 50.0,
+      "y": 650.0
+    },
+    "tileSize": 25
+  },
+  "TiledWall5": {
+    "type": 1,
+    "position": {
+      "x": 900.0,
+      "y": 400.0
+    },
+    "dimensions": {
+      "x": 50.0,
+      "y": 650.0
+    },
+    "tileSize": 25
+  },
+  "TiledWall6": {
+    "type": 1,
+    "position": {
+      "x": 1100.0,
+      "y": 400.0
+    },
+    "dimensions": {
+      "x": 50.0,
+      "y": 650.0
+    },
+    "tileSize": 25
+  },
+  "Player": {
+    "position": {
+      "x": 400.0,
+      "y": 1100.0
+    },
+    "direction": 0,
+    "health": 10,
+    "fireRate": 3,
+    "bulletSpeed": 4,
+    "speed": 2
+  },
+  "Enemy0": {
+    "position": {
+      "x": 400.0,
+      "y": 400.0
+    },
+    "direction": 0,
+    "health": 10,
+    "type": "ENEMY_BLUE_2",
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "Enemy1": {
+    "position": {
+      "x": 450.0,
+      "y": 400.0
+    },
+    "direction": 0,
+    "type": "ENEMY_BLUE_2",
+    "health": 10,
+    "speed": 2,
+    "bulletSpeed":  4,
+    "fireRate": 3
+  },
+  "Enemy2": {
+    "position": {
+      "x": 500.0,
+      "y": 400.0
+    },
+    "direction": 0,
+    "health": 10,
+    "type": "ENEMY_RED_2",
+    "speed": 3,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "Enemy3": {
+    "position": {
+      "x": 550.0,
+      "y": 400.0
+    },
+    "direction": 0,
+    "health": 10,
+    "type": "ENEMY_BLUE_2",
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "Enemy4": {
+    "position": {
+      "x": 600.0,
+      "y": 400.0
+    },
+    "direction": 0,
+    "health": 10,
+    "type": "ENEMY_BLUE_2",
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "Enemy5": {
+    "position": {
+      "x": 650.0,
+      "y": 400.0
+    },
+    "direction": 0,
+    "health": 10,
+    "type": "ENEMY_BLUE_2",
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "Enemy6": {
+    "position": {
+      "x": 700.0,
+      "y": 400.0
+    },
+    "direction": 0,
+    "health": 10,
+    "type": "ENEMY_BLUE_2",
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "Enemy7": {
+    "position": {
+      "x": 750.0,
+      "y": 400.0
+    },
+    "direction": 0,
+    "health": 10,
+    "type": "ENEMY_BLUE_1",
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "Enemy8": {
+    "position": {
+      "x": 800.0,
+      "y": 400.0
+    },
+    "direction": 0,
+    "health": 10,
+    "type": "ENEMY_BLUE_1",
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "Enemy9": {
+    "position": {
+      "x": 850.0,
+      "y": 400.0
+    },
+    "direction": 0,
+    "health": 10,
+    "type": "ENEMY_BLUE_1",
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "Enemy10": {
+    "position": {
+      "x": 900.0,
+      "y": 400.0
+    },
+    "direction": 0,
+    "health": 10,
+    "type": "ENEMY_BLUE_1",
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "Enemy11": {
+    "position": {
+      "x": 850.0,
+      "y": 450.0
+    },
+    "direction": 0,
+    "health": 10,
+    "type": "ENEMY_BLUE_1",
+    "speed": 2,
+    "bulletSpeed": 4,
+    "fireRate": 3
+  },
+  "MediumTree": {
+    "position": {
+      "x": 350.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "MediumTree0": {
+    "position": {
+      "x": 400.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "MediumTree1": {
+    "position": {
+      "x": 450.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "MediumTree2": {
+    "position": {
+      "x": 550.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "MediumTree3": {
+    "position": {
+      "x": 600.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "MediumTree4": {
+    "position": {
+      "x": 650.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "MediumTree5": {
+    "position": {
+      "x": 750.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "MediumTree6": {
+    "position": {
+      "x": 800.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "MediumTree7": {
+    "position": {
+      "x": 850.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "MediumTree8": {
+    "position": {
+      "x": 950.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "MediumTree9": {
+    "position": {
+      "x": 1000.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "MediumTree10": {
+    "position": {
+      "x": 1050.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "MediumTree11": {
+    "position": {
+      "x": 1150.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "MediumTree12": {
+    "position": {
+      "x": 1200.0,
+      "y": 900.0
+    },
+    "health": 10
+  },
+  "MediumTree13": {
+    "position": {
+      "x": 1250.0,
+      "y": 900.0
+    },
+    "health": 10
+  }
+}
+

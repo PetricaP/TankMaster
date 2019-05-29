@@ -68,8 +68,8 @@ public class Wall implements Collidable {
     @Override
     public JsonObject toJson() {
         return JsonObject.build()
-                .addAttribute("type", this.getClass().toString())
                 .addAttribute("position", getPosition().toJson())
+                .addAttribute("dimensions", getDimensions().toJson())
                 .getObject();
     }
 
